@@ -1,26 +1,35 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Navbar from "./components/shared/Navbar";
+import React, {useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import ProjectList from "./components/projects/ProjectList";
 import ProjectForm from "./components/Projects/ProjectForm";
 import axios from "axios";
+import HomePage from "./components/HomePage";
+import Header from "./components/shared/Header";
+
 
 const API_URL="http://localhost:8000/api";
 axios.defaults.baseURL = API_URL;
 axios.defaults.withCredentials = true;
 
 function App() {
+  const [currentPage, setCurrentPage] = useState('home');
+
   return (
     <Router>
-      <Navbar />
+      <div className="flex flex-col min-h-screen dark-mode">
+      <Header />
+      <main className="flex-grow bg-gray-200">
       <Routes>
+        <Route path="/" element={<HomePage setCurrentPage={setCurrentPage} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/projects" element={<ProjectList />} />
         <Route path="/create-project" element={<ProjectForm />} />
       </Routes>
+      </main>
+      </div>
     </Router>
   );
 }
