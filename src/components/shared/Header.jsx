@@ -7,8 +7,7 @@ import { Construction } from 'lucide-react';
 
 const Header = ({ toggleCart, setCurrentPage }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { user } = useContext(UserContext);
-
+  const { user, logout } = useContext(UserContext);
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -37,16 +36,27 @@ const Header = ({ toggleCart, setCurrentPage }) => {
 
         </Box>
 
-        {/* User and Cart */}
         <Box display="flex" alignItems="center" gap={2}>
-          <Button
+          <IconButton
             color="inherit"
-            component={Link}
-            to={user ? '/profile' : '/login'}
-            startIcon={<FaUser />}
+            onClick={handleMenuOpen}
           >
-            {user ? user.name : 'Login'}
-          </Button>
+            <FaUser />
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+          >
+            {user ? (
+              <>
+                <MenuItem component={Link} to="/profile">Profile</MenuItem>
+                <MenuItem onClick={logout}>Logout</MenuItem>
+              </>
+            ) : (
+              <MenuItem component={Link} to="/login">Login</MenuItem>
+            )}
+          </Menu>
         </Box>
 
         {/* Mobile Menu */}
@@ -68,6 +78,7 @@ const Header = ({ toggleCart, setCurrentPage }) => {
           <MenuItem component={Link} to="/projects" onClick={handleMenuClose}>Projects</MenuItem>
           <MenuItem component={Link} to="/contact" onClick={handleMenuClose}>Contact</MenuItem>
           <MenuItem component={Link} to={user ? '/profile' : '/login'} onClick={handleMenuClose}>
+          Profile
             {user ? user.name : 'Login'}
           </MenuItem>
         </Menu>

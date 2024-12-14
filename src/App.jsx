@@ -7,6 +7,7 @@ import ProjectForm from "./components/Projects/ProjectForm";
 import axios from "axios";
 import HomePage from "./components/HomePage";
 import Header from "./components/shared/Header";
+import ProfilePage from "./components/ProfilePage";
 
 
 const API_URL="http://localhost:8000/api";
@@ -26,6 +27,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/projects" element={<ProjectList />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/create-project" element={<ProjectForm />} />
       </Routes>
       </main>
