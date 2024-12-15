@@ -39,6 +39,33 @@ export function UserContextProvider({children}) {
         } else {
         setReady(true); // No token, app is ready for unauthenticated users
         }
+
+
+        const interval = setInterval(() => {
+            const token = localStorage.getItem('accessToken');
+            if (token) {
+              const decodedToken = jwtDecode(token);
+              const currentTime = Date.now() / 1000;
+        
+              // Refresh token if it's about to expire (e.g., within 1 minute)
+              if (decodedToken.exp - currentTime < 60) {
+                axios.post('/token/refresh/', { refresh: localStorage.getItem('refreshToken') })
+                  .then(({ data }) => {
+                    localStorage.setItem('accessToken', data.access);
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${data.access}`;
+                  })
+                  .catch(err => {
+                    console.error('Failed to refresh token:', err);
+                    logout();
+                    
+                  });
+              }
+            }
+          }, 60000); // Check every 60 seconds
+        
+          return () => clearInterval(interval);
+
+
     }, []);
 
     const login = async (credentials) => {

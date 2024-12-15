@@ -101,6 +101,21 @@ const ProjectView = () => {
           </Grid2>
         </Grid2>
 
+        {approvedDocsModalOpen && (
+            <AddApprovedDocumentModal
+              open={approvedDocsModalOpen}
+              onClose={handleApprovedDocsModalClose}
+              projectId={projectId}
+            />
+          )}
+
+          {stakeholderModalOpen && (
+            <AddStakeholderModal
+              open={stakeholderModalOpen}
+              onClose={handleStakeholderModalClose}
+              projectId={projectId}
+            />
+          )}
 
 
         <Grid2 container spacing={3} sx={{ marginTop: 2 }}>
@@ -127,8 +142,7 @@ const ProjectView = () => {
           <Grid2 item xs={12} sm={6}>
             <Typography variant="h6">Approved Docs:</Typography>
             <Typography>{Object.keys(project.approved_docs).length > 0 ? "Yes" : "No"}</Typography>
-            {/* Button to add approved documents */}
-            
+
 
             {/* Display approved documents */}
             {project.approved_drawings && (

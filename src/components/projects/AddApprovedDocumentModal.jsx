@@ -24,7 +24,7 @@ const style = {
   p: 4,
 };
 
-const AddApprovedDocumentModal = ({ open, handleClose, projectId }) => {
+const AddApprovedDocumentModal = ({ open, onClose, projectId }) => {
   const [formData, setFormData] = useState({
     architectural: null,
     structural: null,
@@ -77,12 +77,13 @@ const AddApprovedDocumentModal = ({ open, handleClose, projectId }) => {
       await axios.patch(`/projects/${projectId}/`, updatedDocs);
 
       setSuccessOpen(true); // Open success notification
-      handleClose(); // Close modal after submitting
+      onClose(); // Close modal after submitting
     } catch (error) {
       console.error("Error adding approved document:", error);
     } finally {
       setLoading(false); // Reset loading state
     }
+
   };
 
   const documentLabels = {
@@ -98,7 +99,7 @@ const AddApprovedDocumentModal = ({ open, handleClose, projectId }) => {
   };
 
   return (
-    <Modal open={open} onClose={handleClose}>
+    <Modal open={open} onClose={onClose}>
       <Box sx={style}>
         <Typography variant="h6" gutterBottom>Add Approved Document</Typography>
         <form onSubmit={handleSubmit}>

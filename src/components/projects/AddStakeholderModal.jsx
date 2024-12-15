@@ -20,7 +20,7 @@ const style = {
   p: 4,
 };
 
-const AddStakeholderModal = ({ open, handleClose, projectId }) => {
+const AddStakeholderModal = ({ open, onClose, projectId }) => {
   const [formData, setFormData] = useState({
     name: "",
     role: "",
@@ -57,14 +57,14 @@ const AddStakeholderModal = ({ open, handleClose, projectId }) => {
       await axios.post(`/stakeholders/`, dataToSend, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      handleClose(); // Close modal after submitting
+      onClose(); // Close modal after submitting
     } catch (error) {
       console.error("Error adding stakeholder:", error);
     }
   };
 
   return (
-    <Modal open={open} onClose={handleClose}>
+    <Modal open={open} onClose={onClose}>
       <Box sx={style}>
         <Typography variant="h6" gutterBottom>
           Add Stakeholder
