@@ -8,6 +8,8 @@ import axios from "axios";
 import HomePage from "./components/HomePage";
 import Header from "./components/shared/Header";
 import ProfilePage from "./components/ProfilePage";
+import EditProject from "./components/projects/EditProject";
+import ProjectView from "./components/projects/ProjectView";
 
 
 const API_URL="http://localhost:8000/api";
@@ -21,13 +23,16 @@ function App() {
     <Router>
       <div className="flex flex-col min-h-screen dark-mode">
       <Header />
-      <main className="flex-grow bg-gray-200">
+      <main className="flex-grow bg-gray-200 px-4 py-4">
       <Routes>
         <Route path="/" element={<HomePage setCurrentPage={setCurrentPage} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/projects" element={<ProjectList />} />
+        <Route path="/projects/view/:projectId" element={<ProjectView />} />
+        <Route path="/projects/edit/:projectId" element={<EditProject />} />
         <Route path="/profile" element={<ProfilePage />} />
+        
         <Route path="/create-project" element={<ProjectForm />} />
       </Routes>
       </main>

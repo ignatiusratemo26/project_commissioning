@@ -7,17 +7,35 @@ import {
     Typography,
     Box,
     Link as MuiLink,
-  } from '@mui/material';
+    CircularProgress
+} from '@mui/material';
 import { UserContext } from "../../UserContext";
 
-
-  
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { user, login, logout } = useContext(UserContext);
+  const [loading, setLoading] = useState(false); // Loading state
+  const { user, login } = useContext(UserContext);
 
-return (
+  const handleLogin = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+    setLoading(true); // Set loading state to true
+
+    try {
+      await login({ username, password }); // Attempt to log in
+      setLoading(false); // Reset loading state
+    } catch (error) {
+      setLoading(false); // Reset loading state on error
+      console.error("Login failed:", error.message || error);
+    }
+  };
+
+  // Redirect if user is logged in
+  if (user) {
+    return <Navigate to="/projects" />;
+  }
+
+  return (
     <Box
       sx={{
         display: 'flex',
@@ -48,7 +66,7 @@ return (
             Register now
           </MuiLink>
         </Typography>
-        <form>
+        <form onSubmit={handleLogin}>
           <TextField
             label="Email"
             type="email"
@@ -68,9 +86,8 @@ return (
             required
           />
           <Button
-            onClick={()=>
-              login({username, password})
-            }
+            type="submit" // Ensure this button submits the form
+            disabled={loading} // Disable button while loading
             fullWidth
             variant="contained"
             sx={{
@@ -80,7 +97,7 @@ return (
               mt: 2,
             }}
           >
-            Login
+            {loading ? <CircularProgress size={24} color="inherit" /> : "Login"}
           </Button>
         </form>
         <Typography

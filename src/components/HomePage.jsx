@@ -1,55 +1,213 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { LandPlot } from "lucide-react";
-import { Button } from "@mui/material";
-// import { fetchSubscriptions } from "../Api"; // Import the fetchSubscriptions function
+import React, { useContext } from 'react';
+import {
+  Box,
+  Typography,
+  Button,
+  Container,
+  Grid2,
+  Card,
+  CardContent,
+  CardMedia,
+  Paper,
+  Divider,
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../UserContext';
+import { Link } from 'react-router-dom';
+// Styled Hero Section
+const HeroSection = styled(Box)(({ theme }) => ({
+  height: '70vh',
+  background: `linear-gradient(to right, #3f51b5, #1e88e5)`,
+  color: '#fff',
+  display: 'flex',
+  borderRadius: '16px',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  textAlign: 'center',
+  padding: theme.spacing(4),
+  [theme.breakpoints.down('sm')]: {
+    height: '60vh',
+  },
+}));
 
-const HomePage = ({ setCurrentPage }) => {
+// Styled Footer
+const Footer = styled(Box)(({ theme }) => ({
+  backgroundColor: '#710193',
+  color: '#fff',
+  borderRadius: '16px',
+  padding: theme.spacing(4),
+  marginTop: theme.spacing(6),
+}));
+
+const HomePage = () => {
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
+  const handleGetStarted = () => {
+    navigate('/register');
+  };
+
   return (
-    <div className="container mx-auto px-4 py-8 relative overflow-hidden">
+    <>
+
       {/* Hero Section */}
-      <section className="py-20 text-center">
-        <h1 className="text-5xl font-bold mb-4">Welcome to HoleInOne Club</h1>
-        <p className="text-xl mb-8">
-          Discover the ultimate golf experience with exclusive memberships,
-          world-class courses, and unparalleled community.
-        </p>
-        <Button
+      <HeroSection>
+        <Typography variant="h2" fontWeight="bold" gutterBottom>
+          Welcome to NCA Project Commissioning
+        </Typography>
+        <Typography variant="h5" gutterBottom>
+          Get your project approved by NCA in no time.
+        </Typography>
+        {/* <Button
           variant="contained"
-          style={{ backgroundColor: "#710193" }}
+          color="secondary"
           size="large"
+          sx={{ mt: 2 }}
         >
-          Explore Our Club
-        </Button>
-      </section>
+          Get Started
+        </Button> */}
+        <Button
+            variant="contained"
+            color="secondary"
+            size="large"
+            sx={{ mt: 2 }}
+            component={Link}
+            to={user ? "/projects" : "/register"}
+          >
+            {user ? "Show My Projects" : "Get Started"}
+          </Button>
+      </HeroSection>
 
-      {/* About Section */}
-      <section id="about" className="py-16 bg-white rounded-lg shadow-lg">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8 text-center">About HoleInOne Club</h2>
-          <p className="text-lg text-center max-w-3xl mx-auto">
-            HoleInOne Club is an exclusive golf community offering premium
-            memberships, access to world-class golf courses, personalized
-            coaching, and a vibrant social environment for golf enthusiasts.
-            Whether you're a beginner or a seasoned golfer, our club provides
-            the perfect space to elevate your game and connect with like-minded
-            individuals.
-          </p>
-        </div>
-      </section>
+      {/* Features Section */}
+      <Container maxWidth="lg" sx={{ mt: 6 }}>
+        <Typography variant="h4" fontWeight="bold" gutterBottom align="center">
+          Why Choose Us
+        </Typography>
+        <Typography variant="body1" color="black" align="center">
+          Discover the key features that make our platform unique and effective.
+        </Typography>
 
-      {/* Membership Packages Section */}
-      <section id="packages" className="py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8 text-center">Our Membership Packages</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            
-          </div>
-        </div>
-      </section>
-    </div>
+        <Grid2 container spacing={4} sx={{ mt: 4 }}>
+          {/* Feature 1 */}
+          <Grid2 item xs={12} sm={6} md={4}>
+            <Card elevation={3}>
+              <CardMedia
+                component="img"
+                height="140"
+                image="/path/to/feature1.jpg"
+                alt="Feature 1"
+              />
+              <CardContent>
+                <Typography variant="h6" fontWeight="bold">
+                  Feature 1
+                </Typography>
+                <Typography variant="body2" color="white">
+                  Detailed description of Feature 1 and its benefits.
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid2>
+
+          {/* Feature 2 */}
+          <Grid2 item xs={12} sm={6} md={4}>
+            <Card elevation={3}>
+              <CardMedia
+                component="img"
+                height="140"
+                image="/path/to/feature2.jpg"
+                alt="Feature 2"
+              />
+              <CardContent>
+                <Typography variant="h6" fontWeight="bold">
+                  Feature 2
+                </Typography>
+                <Typography variant="body2" color="white">
+                  Detailed description of Feature 2 and its benefits.
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid2>
+
+          {/* Feature 3 */}
+          <Grid2 item xs={12} sm={6} md={4}>
+            <Card elevation={3}>
+              <CardMedia
+                component="img"
+                height="140"
+                image="/path/to/feature3.jpg"
+                alt="Feature 3"
+              />
+              <CardContent>
+                <Typography variant="h6" fontWeight="bold">
+                  Feature 3
+                </Typography>
+                <Typography variant="body2" color="white">
+                  Detailed description of Feature 3 and its benefits.
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid2>
+        </Grid2>
+      </Container>
+
+      {/* Footer */}
+      <Footer>
+        <Container maxWidth="lg">
+          <Grid2 container spacing={4}>
+            {/* About Section */}
+            <Grid2 item xs={12} sm={4}>
+              <Typography variant="h6" fontWeight="bold" gutterBottom>
+                About Us
+              </Typography>
+              <Typography variant="body2" color="white">
+                NCAPC is a platform designed to make your project management
+                efficient, streamlined, and collaborative.
+              </Typography>
+            </Grid2>
+
+            {/* Links */}
+            <Grid2 item xs={12} sm={4}>
+              <Typography variant="h6" fontWeight="bold" gutterBottom>
+                Quick Links
+              </Typography>
+              <Typography variant="body2" color="white">
+                - Home
+              </Typography>
+              <Typography variant="body2" color="white">
+                - Features
+              </Typography>
+              <Typography variant="body2" color="white">
+                - Contact
+              </Typography>
+            </Grid2>
+
+            {/* Contact */}
+            <Grid2 item xs={12} sm={4}>
+              <Typography variant="h6" fontWeight="bold" gutterBottom>
+                Contact Us
+              </Typography>
+              <Typography variant="body2" color="white">
+                Email: support@ncapc.com
+              </Typography>
+              <Typography variant="body2" color="white">
+                Phone: +254 700 11 22 33
+              </Typography>
+            </Grid2>
+          </Grid2>
+
+          <Divider sx={{ my: 4 }} />
+          <Typography
+            variant="body2"
+            color="white"
+            align="center"
+          >
+            &copy; {new Date().getFullYear()} NCAPC. All rights reserved.
+          </Typography>
+        </Container>
+      </Footer>
+    </>
   );
 };
 
