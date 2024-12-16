@@ -15,6 +15,7 @@ import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import { Link } from 'react-router-dom';
+import Footer from './shared/Footer';
 // Styled Hero Section
 // const HeroSection = styled(Box)(({ theme }) => ({
 //   height: '70vh',
@@ -33,7 +34,7 @@ import { Link } from 'react-router-dom';
 // }));
 const HeroSection = styled(Box)(({ theme }) => ({
   height: '70vh',
-  background: `linear-gradient(to right, rgba(63, 81, 181, 0.7), rgba(30, 136, 229, 0.7)), url('https://wordpress.bricknbolt.com/wp-content/uploads/2024/07/Low-Cost-House-Construction-1.webp')`,
+  background: `linear-gradient(to right, rgba(63, 81, 181, 0.5), rgba(30, 136, 229, 0.5)), url('https://wordpress.bricknbolt.com/wp-content/uploads/2024/07/Low-Cost-House-Construction-1.webp')`,
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   color: '#fff',
@@ -48,14 +49,7 @@ const HeroSection = styled(Box)(({ theme }) => ({
     height: '60vh',
   },
 }));
-// Styled Footer
-const Footer = styled(Box)(({ theme }) => ({
-  backgroundColor: '#710193',
-  color: '#fff',
-  borderRadius: '16px',
-  padding: theme.spacing(4),
-  marginTop: theme.spacing(6),
-}));
+
 
 const HomePage = () => {
   const { user } = useContext(UserContext);
@@ -87,6 +81,7 @@ const HomePage = () => {
       </Typography>
       <Typography
         variant="h5"
+        fontWeight="bold"
         gutterBottom
         sx={{
           fontSize: {
@@ -184,61 +179,7 @@ const HomePage = () => {
         </Grid2>
       </Container>
 
-      {/* Footer */}
-      <Footer>
-        <Container maxWidth="lg">
-          <Grid2 container spacing={4}>
-            {/* About Section */}
-            <Grid2 item xs={12} sm={4}>
-              <Typography variant="h6" fontWeight="bold" gutterBottom>
-                About Us
-              </Typography>
-              <Typography variant="body2" color="white">
-                NCAPC is a platform designed to make your project management
-                efficient, streamlined, and collaborative.
-              </Typography>
-            </Grid2>
-
-            {/* Links */}
-            <Grid2 item xs={12} sm={4}>
-              <Typography variant="h6" fontWeight="bold" gutterBottom>
-                Quick Links
-              </Typography>
-              <Typography variant="body2" color="white">
-                - Home
-              </Typography>
-              <Typography variant="body2" color="white">
-                - Features
-              </Typography>
-              <Typography variant="body2" color="white">
-                - Contact
-              </Typography>
-            </Grid2>
-
-            {/* Contact */}
-            <Grid2 item xs={12} sm={4}>
-              <Typography variant="h6" fontWeight="bold" gutterBottom>
-                Contact Us
-              </Typography>
-              <Typography variant="body2" color="white">
-                Email: support@ncapc.com
-              </Typography>
-              <Typography variant="body2" color="white">
-                Phone: +254 700 11 22 33
-              </Typography>
-            </Grid2>
-          </Grid2>
-
-          <Divider sx={{ my: 4 }} />
-          <Typography
-            variant="body2"
-            color="white"
-            align="center"
-          >
-            &copy; {new Date().getFullYear()} NCAPC. All rights reserved.
-          </Typography>
-        </Container>
-      </Footer>
+      <Footer />
     </>
   );
 };

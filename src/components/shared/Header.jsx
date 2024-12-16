@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
 import { Construction } from 'lucide-react';
 
-const Header = ({ toggleCart, setCurrentPage }) => {
+const Header = ({ toggleCart }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { user, logout } = useContext(UserContext);
+  
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -17,11 +18,11 @@ const Header = ({ toggleCart, setCurrentPage }) => {
   };
 
   return (
-    <AppBar position="static" sx={{ bgcolor: '#710193' }}>
+    <AppBar position="static" sx={{ bgcolor: '#6200ea', boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)' }}>
       <Toolbar>
         {/* Logo and Title */}
         <Box display="flex" alignItems="center" sx={{ flexGrow: 1 }}>
-          <Link to="/" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
+          <Link to="/" style={{ textDecoration: 'none', color: 'white', display: 'flex', alignItems: 'center' }}>
             <Construction style={{ width: 32, height: 32, marginRight: 8 }} />
             <Typography variant="h6" component="div" fontWeight="bold">
               Project Commissioning
@@ -31,11 +32,35 @@ const Header = ({ toggleCart, setCurrentPage }) => {
 
         {/* Navigation Links */}
         <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2 }}>
-          <Button color="inherit" component={Link} to="/projects">Projects</Button>
-          <Button color="inherit" component={Link} to="/contact">Contact</Button>
-
+          <Button 
+            color="inherit" 
+            component={Link} 
+            to="/projects" 
+            sx={{
+              '&:hover': {
+                bgcolor: '#3700b3',
+                transition: 'background-color 0.3s',
+              }
+            }}
+          >
+            Projects
+          </Button>
+          <Button 
+            color="inherit" 
+            component={Link} 
+            to="/contact"
+            sx={{
+              '&:hover': {
+                bgcolor: '#3700b3',
+                transition: 'background-color 0.3s',
+              }
+            }}
+          >
+            Contact
+          </Button>
         </Box>
 
+        {/* User Menu */}
         <Box display="flex" alignItems="center" gap={2}>
           <IconButton
             color="inherit"
@@ -78,7 +103,7 @@ const Header = ({ toggleCart, setCurrentPage }) => {
           <MenuItem component={Link} to="/projects" onClick={handleMenuClose}>Projects</MenuItem>
           <MenuItem component={Link} to="/contact" onClick={handleMenuClose}>Contact</MenuItem>
           <MenuItem component={Link} to={user ? '/profile' : '/login'} onClick={handleMenuClose}>
-          Profile
+            Profile
             {user ? user.name : 'Login'}
           </MenuItem>
         </Menu>
