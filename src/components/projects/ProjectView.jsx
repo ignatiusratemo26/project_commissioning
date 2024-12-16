@@ -74,14 +74,14 @@ const ProjectView = () => {
         <Grid2 container justifyContent="flex-end" spacing={2}>
         <Grid2 item>
 
-          <Tooltip title="Project must have at least one approved document and three stakeholders to submit for commissioning.">
+          <Tooltip title="Project must have at least one approved document and three stakeholders to submit for approval.">
           <Button 
               variant="contained" 
               color="secondary" 
-              onClick={() => navigate(`/projects/commissioning/${projectId}/`)} 
+              onClick={() => navigate(`/projects/approval/${projectId}/`)} 
               disabled={isSubmitDisabled}
             >
-              Submit for Commissioning
+              Submit for Approval
             </Button>          </Tooltip>
           </Grid2>
           <Grid2 item>
@@ -166,16 +166,10 @@ const ProjectView = () => {
             
 
             {/* Display stakeholders */}
-            {stakeholders.length > 0 ? (
-              <>
-                <List>
-                  {stakeholders.map((stakeholder) => (
-                    <ListItem key={stakeholder.id}>
-                      <ListItemText primary={`${stakeholder.name} - ${stakeholder.role}`} />
-                    </ListItem>
-                  ))}
-                </List>
-              </>
+            {stakeholders.length >= 0 ? (
+              <Typography>
+                {stakeholders.length} Stakeholder(s) added.
+              </Typography>
             ) : (
               <Typography>No stakeholders added yet.</Typography>
             )}

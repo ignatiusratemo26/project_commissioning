@@ -16,9 +16,26 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import { Link } from 'react-router-dom';
 // Styled Hero Section
+// const HeroSection = styled(Box)(({ theme }) => ({
+//   height: '70vh',
+//   background: `linear-gradient(to right, #3f51b5, #1e88e5)`,
+//   color: '#fff',
+//   display: 'flex',
+//   borderRadius: '16px',
+//   flexDirection: 'column',
+//   justifyContent: 'center',
+//   alignItems: 'center',
+//   textAlign: 'center',
+//   padding: theme.spacing(4),
+//   [theme.breakpoints.down('sm')]: {
+//     height: '60vh',
+//   },
+// }));
 const HeroSection = styled(Box)(({ theme }) => ({
   height: '70vh',
-  background: `linear-gradient(to right, #3f51b5, #1e88e5)`,
+  background: `linear-gradient(to right, rgba(63, 81, 181, 0.7), rgba(30, 136, 229, 0.7)), url('https://wordpress.bricknbolt.com/wp-content/uploads/2024/07/Low-Cost-House-Construction-1.webp')`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
   color: '#fff',
   display: 'flex',
   borderRadius: '16px',
@@ -31,7 +48,6 @@ const HeroSection = styled(Box)(({ theme }) => ({
     height: '60vh',
   },
 }));
-
 // Styled Footer
 const Footer = styled(Box)(({ theme }) => ({
   backgroundColor: '#710193',
@@ -54,20 +70,36 @@ const HomePage = () => {
 
       {/* Hero Section */}
       <HeroSection>
-        <Typography variant="h2" fontWeight="bold" gutterBottom>
-          Welcome to NCA Project Commissioning
-        </Typography>
-        <Typography variant="h5" gutterBottom>
-          Get your project approved by NCA in no time.
-        </Typography>
-        {/* <Button
-          variant="contained"
-          color="secondary"
-          size="large"
-          sx={{ mt: 2 }}
-        >
-          Get Started
-        </Button> */}
+      <Typography
+        variant="h2"
+        fontWeight="bold"
+        gutterBottom
+        sx={{
+          fontSize: {
+            xs: '2rem', // small screens
+            sm: '2.5rem', // medium screens
+            md: '3rem', // large screens
+            lg: '3.5rem', // extra large screens
+          },
+        }}
+      >
+        Welcome to NCA Project Commissioning
+      </Typography>
+      <Typography
+        variant="h5"
+        gutterBottom
+        sx={{
+          fontSize: {
+            xs: '1rem', // small screens
+            sm: '1.25rem', // medium screens
+            md: '1.5rem', // large screens
+            lg: '1.75rem', // extra large screens
+          },
+        }}
+      >
+        Get your project approved by NCA in no time.
+      </Typography>
+
         <Button
             variant="contained"
             color="secondary"
