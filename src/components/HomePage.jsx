@@ -10,28 +10,12 @@ import {
   CardMedia,
   Paper,
   Divider,
+  styled
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { UserContext } from '../UserContext';
-import { Link } from 'react-router-dom';
 import Footer from './shared/Footer';
-// Styled Hero Section
-// const HeroSection = styled(Box)(({ theme }) => ({
-//   height: '70vh',
-//   background: `linear-gradient(to right, #3f51b5, #1e88e5)`,
-//   color: '#fff',
-//   display: 'flex',
-//   borderRadius: '16px',
-//   flexDirection: 'column',
-//   justifyContent: 'center',
-//   alignItems: 'center',
-//   textAlign: 'center',
-//   padding: theme.spacing(4),
-//   [theme.breakpoints.down('sm')]: {
-//     height: '60vh',
-//   },
-// }));
+
 const HeroSection = styled(Box)(({ theme }) => ({
   height: '70vh',
   background: `linear-gradient(to right, rgba(63, 81, 181, 0.5), rgba(30, 136, 229, 0.5)), url('https://wordpress.bricknbolt.com/wp-content/uploads/2024/07/Low-Cost-House-Construction-1.webp')`,
