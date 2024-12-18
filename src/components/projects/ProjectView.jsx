@@ -54,10 +54,18 @@ const ProjectView = () => {
   };
 
   if (!project) return <div>Loading...</div>;
+  
+  const documentFields = [
+    { label: 'Architectural', key: 'architectural' },
+    { label: 'Structural', key: 'structural' },
+    { label: 'Proposed Sewer', key: 'proposed_sewer' },
+    { label: 'Proposed Water', key: 'proposed_water' },
+    { label: 'Proposed Electricity', key: 'proposed_electricity' },
+  ];
 
   // Determine if the button should be disabled
   const isSubmitDisabled =
-    Object.keys(project.approved_docs).length === 0 || stakeholders.length < 3;
+    project.approved_docs === 0 || stakeholders.length < 3;
 
   return (
     <div>
@@ -141,13 +149,14 @@ const ProjectView = () => {
           </Grid2>
           <Grid2 item xs={12} sm={6}>
             <Typography variant="h6">Approved Docs:</Typography>
-            <Typography>{Object.keys(project.approved_docs).length > 0 ? "Yes" : "No"}</Typography>
+            <Typography>{project.approved_docs > 0 ? "Yes" : "No"}</Typography>
 
 
             {/* Display approved documents */}
             {project.approved_drawings && (
               <>
                 <Typography variant="h6" gutterBottom>Approved Documents:</Typography>
+                
                 <List>
                   {project.approved_drawings.map((doc) => (
                     <ListItem key={doc.id}>
@@ -184,28 +193,55 @@ const ProjectView = () => {
       <Card sx={{ marginTop: 3 }}>
         <CardContent>
           <Typography variant="h6" gutterBottom>Approved Documents</Typography>
-          {Object.keys(project.approved_docs || {}).length > 0 ? (
-            <List>
-              {Object.entries(project.approved_docs).map(([key, url]) => (
-                <ListItem key={key} divider>
-                  <ListItemText primary={key.replace(/_/g, " ")} />
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View Document
-                  </Button>
-                </ListItem>
-              ))}
-            </List>
-          ) : (
-            <Typography>No approved documents uploaded yet.</Typography>
-          )}
+          {/* {Object.keys(project.approved_docs || {}).length > 0 ? (
+          //   <List>
+          //     {Object.entries(project.approved_docs).map(([key, url]) => (
+          //       <ListItem key={key} divider>
+          //         <ListItemText primary={key.replace(/_/g, " ")} />
+          //         <Button
+          //           variant="outlined"
+          //           color="primary"
+          //           href={url}
+          //           target="_blank"
+          //           rel="noopener noreferrer"
+          //         >
+          //           View Document
+          //         </Button>
+          //       </ListItem>
+          //     ))}
+          //   </List>
+          // ) : (
+          //   <Typography>No approved documents uploaded yet.</Typography>
+          // )} */}
+          <List>
+          {documentFields.map((doc) => (
+            <ListItem key={doc.key}>
+              <ListItemText
+                primary={`${doc.label}:`}
+                secondary={
+                  project[doc.key] ? (
+                    <a href={project[doc.key]} target="_blank" rel="noopener noreferrer">
+                      View Document
+                    </a>
+                  ) : (
+                    'Not available'
+                  )
+                }
+              />
+            </ListItem>
+          ))}
+        </List>
         </CardContent>
       </Card>
+
+
+
+
+
+
+
+
+
 
       {/* Card for Stakeholders */}
       <Card sx={{ marginTop: 3 }}>
