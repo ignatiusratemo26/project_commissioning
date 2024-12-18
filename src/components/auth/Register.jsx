@@ -13,7 +13,8 @@ import {
 
 const Register = () => {
   const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
+  const [first_name, setFirstName] = useState('');
+  const [last_name, setLastName] = useState('');
   const [phone_number, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -28,7 +29,8 @@ const Register = () => {
     }
     try {
       const response = await axios.post('/register/', {
-        name,
+        first_name,
+        last_name,
         username: email,
         password,
         phone_number,
@@ -73,6 +75,22 @@ const Register = () => {
         </Typography>
         <form onSubmit={handleRegister}>
           <TextField
+              label="First Name"
+              value={first_name}
+              onChange={(e) => setName(e.target.value)}
+              fullWidth
+              margin="normal"
+              required
+            />
+            <TextField
+              label="Last Name"
+              value={last_name}
+              onChange={(e) => setName(e.target.value)}
+              fullWidth
+              margin="normal"
+              required
+            />
+          <TextField
             label="Email address"
             type="email"
             value={email}
@@ -81,14 +99,7 @@ const Register = () => {
             margin="normal"
             required
           />
-          <TextField
-            label="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            fullWidth
-            margin="normal"
-            required
-          />
+
           <TextField
            label="Phone Number"
             value={phone_number}

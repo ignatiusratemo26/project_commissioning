@@ -10,6 +10,7 @@ import Header from "./components/shared/Header";
 import ProfilePage from "./components/ProfilePage";
 import EditProject from "./components/projects/EditProject";
 import ProjectView from "./components/projects/ProjectView";
+import ContactPage from "./components/ContactPage";
 
 
 const API_URL="http://localhost:8000/api";
@@ -32,6 +33,7 @@ function App() {
         <Route path="/projects/view/:projectId" element={<ProjectView />} />
         <Route path="/projects/edit/:projectId" element={<EditProject />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/contact" element={<ContactPage />} />
         
         <Route path="/create-project" element={<ProjectForm />} />
       </Routes>

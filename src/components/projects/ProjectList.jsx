@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import {
   Table,
@@ -15,8 +15,9 @@ import {
 import { TextField, Button, Badge, IconButton } from '@mui/material';
 import { Add, FilterList, MoreVert } from '@mui/icons-material';
 import Paper from '@mui/material/Paper';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import CreateProjectModal from './CreateProjectModal';
+import { UserContext } from '../../UserContext';
 
 export default function ProjectList() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -27,6 +28,7 @@ export default function ProjectList() {
   const [currentProjectId, setCurrentProjectId] = useState(null);
 
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
 
   const handleMenuClick = (event, projectId) => {
     setMenuAnchorEl(event.currentTarget);
@@ -70,6 +72,10 @@ export default function ProjectList() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  if (!user) {
+    return <Navigate to="/" />;
+  }
 
 return (
   <div className="w-full p-6">

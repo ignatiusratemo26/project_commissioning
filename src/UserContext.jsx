@@ -101,11 +101,24 @@ export function UserContextProvider({children}) {
       
 
     // Logout Function
-    const logout = () => {
+    // const logout = () => {
+    //   await axios.post('/logout/', { refresh: localStorage.getItem('refreshToken') });
+    //     localStorage.removeItem('accessToken');
+    //     delete axios.defaults.headers.common['Authorization'];
+    //     setUser(null);
+    // };
+    const logout = async () => {
+      try {
+        await axios.post('/logout/', { refresh: localStorage.getItem('refreshToken') });
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
         delete axios.defaults.headers.common['Authorization'];
         setUser(null);
+      } catch (error) {
+        console.error('Error during logout:', error);
+      }
     };
+
     return (
         <UserContext.Provider value={{user, setUser, ready, login, logout}}>
             {children}
