@@ -14,6 +14,7 @@ import {
 const Register = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [phone_number, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [marketingOptOut, setMarketingOptOut] = useState(false);
@@ -26,10 +27,11 @@ const Register = () => {
       return;
     }
     try {
-      const response = await axios.post('/api/register', {
+      const response = await axios.post('/register/', {
         name,
-        email,
+        username: email,
         password,
+        phone_number,
       });
       console.log('Registration successful:', response);
       navigate('/login');
@@ -80,11 +82,19 @@ const Register = () => {
             required
           />
           <TextField
-            label="Username"
+            label="Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             fullWidth
             margin="normal"
+            required
+          />
+          <TextField
+           label="Phone Number"
+            value={phone_number}
+            onChange={(e) => setPhone(e.target.value)}
+            fullWidth
+            margin='normal'
             required
           />
           <TextField

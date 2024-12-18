@@ -5,6 +5,11 @@ import {
   Button,
   TextField,
   Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+
 } from "@mui/material";
 import axios from "axios";
 
@@ -76,7 +81,7 @@ const CreateProjectModal = ({ open, handleClose }) => {
             onChange={handleChange}
             required
           />
-          <TextField
+          {/* <TextField
             name="scope"
             label="Scope"
             variant="outlined"
@@ -85,7 +90,21 @@ const CreateProjectModal = ({ open, handleClose }) => {
             value={formData.scope}
             onChange={handleChange}
             required
-          />
+          /> */}
+          <FormControl fullWidth required>
+            <InputLabel id="scope-label">Scope</InputLabel>
+            <Select
+              labelId="scope-label"
+              name="scope"
+              value={formData.scope}
+              onChange={handleChange}
+              label="Scope"
+            >
+              <MenuItem value="Residential">Residential</MenuItem>
+              <MenuItem value="Commercial">Commercial</MenuItem>
+              <MenuItem value="Mixed-use">Mixed-use</MenuItem>
+            </Select>
+          </FormControl>
           <TextField
             name="county"
             label="County"

@@ -68,7 +68,7 @@ const AddApprovedDocumentModal = ({ open, onClose, projectId }) => {
 
     try {
       // Use axios.post to send FormData
-      await axios.post("/approved-drawings/", formDataToSend, {
+      await axios.patch(`/projects/${projectId}/`, formDataToSend, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
