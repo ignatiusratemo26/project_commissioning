@@ -26,6 +26,9 @@ const style = {
 
 const AddApprovedDocumentModal = ({ open, onClose, projectId }) => {
   const [formData, setFormData] = useState({
+    nema_cert: null,
+    eia_report: null,
+    nca_cert: null,
     architectural: null,
     structural: null,
     proposed_sewer: null,
@@ -87,6 +90,9 @@ const AddApprovedDocumentModal = ({ open, onClose, projectId }) => {
   };
 
   const documentLabels = {
+    nema_cert:"Nema Certificate",
+    eia_report:"EIA Report",
+    nca_cert: "NCA Certificate",
     architectural: "Architectural Document",
     structural: "Structural Document",
     proposed_sewer: "Proposed Sewer Document",
@@ -99,38 +105,71 @@ const AddApprovedDocumentModal = ({ open, onClose, projectId }) => {
   };
 
   return (
-    <Modal open={open} onClose={onClose}>
-      <Box sx={style}>
-        <Typography variant="h6" gutterBottom>Add Approved Document</Typography>
-        <form onSubmit={handleSubmit}>
-          {Object.keys(documentLabels).map((docType) => (
-            <Box key={docType} marginBottom={2}>
-              <InputLabel htmlFor={docType}>{documentLabels[docType]}</InputLabel>
-              <TextField
-                id={docType}
-                name={docType}
-                type="file"
-                onChange={handleChange}
-                fullWidth
-                margin="normal"
-                InputLabelProps={{ shrink: true }}
-                required
-              />
-            </Box>
-          ))}
-          <Button type="submit" variant="contained" color="primary" fullWidth disabled={loading}>
-            {loading ? <CircularProgress size={24} color="inherit" /> : "Add Document"}
-          </Button>
-        </form>
+    // <Modal open={open} onClose={onClose}>
+    //   <Box sx={style}>
+    //     <Typography variant="h6" gutterBottom>Add Approved Document</Typography>
+    //     <form onSubmit={handleSubmit}>
+    //       {Object.keys(documentLabels).map((docType) => (
+    //         <Box key={docType} marginBottom={2}>
+    //           <InputLabel htmlFor={docType}>{documentLabels[docType]}</InputLabel>
+    //           <TextField
+    //             id={docType}
+    //             name={docType}
+    //             type="file"
+    //             onChange={handleChange}
+    //             fullWidth
+    //             margin="normal"
+    //             InputLabelProps={{ shrink: true }}
+    //           />
+    //         </Box>
+    //       ))}
+    //       <Button type="submit" variant="contained" color="primary" fullWidth disabled={loading}>
+    //         {loading ? <CircularProgress size={24} color="inherit" /> : "Add Document"}
+    //       </Button>
+    //     </form>
 
-        {/* Snackbar for success message */}
-        <Snackbar open={successOpen} autoHideDuration={3000} onClose={handleSnackbarClose}>
-          <MuiAlert elevation={6} severity="success" onClose={handleSnackbarClose}>
-            Documents added successfully!
-          </MuiAlert>
-        </Snackbar>
-      </Box>
-    </Modal>
+    //     {/* Snackbar for success message */}
+    //     <Snackbar open={successOpen} autoHideDuration={3000} onClose={handleSnackbarClose}>
+    //       <MuiAlert elevation={6} severity="success" onClose={handleSnackbarClose}>
+    //         Documents added successfully!
+    //       </MuiAlert>
+    //     </Snackbar>
+    //   </Box>
+    // </Modal>
+
+    <Modal open={open} onClose={onClose}>
+  <Box sx={{ ...style, maxHeight: '90vh', overflowY: 'auto' }}>
+    <Typography variant="h6" gutterBottom>Add Approved Document</Typography>
+    <form onSubmit={handleSubmit}>
+      {Object.keys(documentLabels).map((docType) => (
+        <Box key={docType} marginBottom={2}>
+          <InputLabel htmlFor={docType}>{documentLabels[docType]}</InputLabel>
+          <TextField
+            id={docType}
+            name={docType}
+            type="file"
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            InputLabelProps={{ shrink: true }}
+          />
+        </Box>
+      ))}
+      <Button type="submit" variant="contained" color="primary" fullWidth disabled={loading}>
+        {loading ? <CircularProgress size={24} color="inherit" /> : "Add Document"}
+      </Button>
+    </form>
+
+    {/* Snackbar for success message */}
+    <Snackbar open={successOpen} autoHideDuration={3000} onClose={handleSnackbarClose}>
+      <MuiAlert elevation={6} severity="success" onClose={handleSnackbarClose}>
+        Documents added successfully!
+      </MuiAlert>
+    </Snackbar>
+  </Box>
+</Modal>
+
+   
   );
 };
 

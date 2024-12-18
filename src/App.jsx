@@ -24,7 +24,7 @@ function App() {
     <Router>
       <div className="flex flex-col min-h-screen dark-mode">
       <Header />
-      <main className="flex-grow bg-gray-200 px-4 py-4">
+      <main className="flex-grow bg-gray-100">
       <Routes>
         <Route path="/" element={<HomePage setCurrentPage={setCurrentPage} />} />
         <Route path="/login" element={<Login />} />

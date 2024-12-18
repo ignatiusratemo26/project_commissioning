@@ -47,7 +47,9 @@ const HomePage = () => {
     <>
 
       {/* Hero Section */}
-      <HeroSection>
+      <HeroSection
+      className='px-4 py-8 m-4'
+      >
       <Typography
         variant="h2"
         fontWeight="bold"
@@ -163,7 +165,7 @@ const HomePage = () => {
         </Grid2>
       </Container>
 
-      <Footer />
+      <Footer  />
     </>
   );
 };

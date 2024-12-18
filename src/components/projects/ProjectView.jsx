@@ -18,6 +18,7 @@ import {
 import { ArrowBack } from "@mui/icons-material";
 import AddApprovedDocumentModal from "./AddApprovedDocumentModal"; // Import your modal component
 import AddStakeholderModal from "./AddStakeholderModal"; // Import your modal component
+import { CheckCircleIcon } from "lucide-react";
 
 const ProjectView = () => {
   const { projectId } = useParams();
@@ -25,6 +26,9 @@ const ProjectView = () => {
   const [stakeholders, setStakeholders] = useState([]);
   const [approvedDocsModalOpen, setApprovedDocsModalOpen] = useState(false);
   const [stakeholderModalOpen, setStakeholderModalOpen] = useState(false);
+  const [isSubmittedForApproval, setIsSubmittedForApproval] = useState(false);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,10 +36,21 @@ const ProjectView = () => {
       try {
         const response = await axios.get(`/projects/${projectId}/`);
         setProject(response.data);
+        setIsSubmittedForApproval(response.data.ready_for_approval);
+        
 
         // Fetch stakeholders associated with the project
         const stakeholdersResponse = await axios.get(`/stakeholders/?project=${projectId}`);
         setStakeholders(stakeholdersResponse.data);
+
+        if (!response.data.ready_for_approval) {
+          setIsSubmitDisabled(
+            response.data.approved_docs < 3 || stakeholdersResponse.data.length < 3
+          );
+        } else if (response.data.approved_for_commissioning) {
+          setIsSubmitDisabled(response.data.approved_docs < 5);
+        }
+
       } catch (error) {
         console.error("Error fetching project details:", error);
       }
@@ -53,19 +68,34 @@ const ProjectView = () => {
     fetchProjectDetails(); // Refresh project details after adding
   };
 
+  const handleSubmitForApproval = async () => {
+    try {
+      await axios.patch(`/projects/${projectId}/`, { ready_for_approval: true });
+    } catch (error) {
+      console.error("Error submitting project for approval:", error);
+    }
+  };
+
+  const handleSubmitForCommissioning = async () => {
+    try {
+      await axios.patch(`/projects/${projectId}/`, { ready_for_commissioning: true });
+    } catch (error) {
+      console.error("Error submitting project for commissioning:", error);
+    }
+  };
+
   if (!project) return <div>Loading...</div>;
   
   const documentFields = [
+    { label: 'NEMA Certificate', key: 'nema_cert' },
+    { label: 'EIA Report', key: 'eia_report' },
+    { label: 'NCA Certificate', key: 'nca_cert' },
     { label: 'Architectural', key: 'architectural' },
     { label: 'Structural', key: 'structural' },
     { label: 'Proposed Sewer', key: 'proposed_sewer' },
     { label: 'Proposed Water', key: 'proposed_water' },
     { label: 'Proposed Electricity', key: 'proposed_electricity' },
   ];
-
-  // Determine if the button should be disabled
-  const isSubmitDisabled =
-    project.approved_docs === 0 || stakeholders.length < 3;
 
   return (
     <div>
@@ -74,23 +104,78 @@ const ProjectView = () => {
         <IconButton onClick={() => navigate(-1)}>
           <ArrowBack />
         </IconButton>
-        <Typography variant="h4" gutterBottom>
-          Project Details
-        </Typography>
+          {/* Title Section */}
+        <div style={{ display: "flex", marginBottom: "16px" }}>
+          <Typography variant="h4" gutterBottom style={{ marginRight: "46px" }}>
+            Project Details for {project.name}
+          </Typography>
+          
+        </div>
+
+        <div style={{ display: "flex", justifyContent:"center" , marginBottom: "16px" }}>
+        {project.approved_for_commissioning && (
+            <Badge
+              badgeContent={
+                <span style={{ display: "flex", alignItems: "center" }}>
+                  <CheckCircleIcon style={{ marginRight: "4px" }} />
+                  Approved for Commissioning
+                </span>
+              }
+              color="success"
+              sx={{
+                "& .MuiBadge-badge": {
+                  backgroundColor: "#4caf50",
+                  color: "#fff",
+                  padding: "4px 12px",
+                  borderRadius: "8px",
+                  fontWeight: "bold",
+                  marginRight: "8px",
+                  paddingY: "20px",
+                },
+              }}
+            />
+          )}
+          {project.approved_for_occupancy && (
+            <Badge
+              badgeContent={
+                <span style={{ display: "flex", alignItems: "center" }}>
+                  <CheckCircleIcon style={{ marginRight: "4px" }} />
+                  Approved for Occupancy
+                </span>
+              }
+              color="success"
+              sx={{
+                "& .MuiBadge-badge": {
+                  backgroundColor: "#4caf50",
+                  color: "#fff",
+                  padding: "4px 12px",
+                  paddingY:"20px",
+                  borderRadius: "8px",
+                  fontWeight: "bold",
+                  marginLeft: "8px",
+                },
+              }}
+            />
+          )}
+          </div>
 
         {/* Button Container */}
-        <Grid2 container justifyContent="flex-end" spacing={2}>
+        <Grid2 container justifyContent="flex-end" spacing={2} className="mt-10" >
         <Grid2 item>
 
-          <Tooltip title="Project must have at least one approved document and three stakeholders to submit for approval.">
-          <Button 
-              variant="contained" 
-              color="secondary" 
-              onClick={() => navigate(`/projects/approval/${projectId}/`)} 
+          <Tooltip title="Project must have at least 3 approved documents and three stakeholders to submit for approval.">
+
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={project.approved_for_commissioning ? handleSubmitForCommissioning : handleSubmitForApproval}
               disabled={isSubmitDisabled}
             >
-              Submit for Approval
-            </Button>          </Tooltip>
+              {project.approved_for_commissioning ? 'Submit for Commissioning' : 'Submit for Approval'}
+            </Button>
+            </Tooltip>
+
+
           </Grid2>
           <Grid2 item>
             <Button variant="contained" color="secondary" onClick={() => navigate(`/projects/edit/${projectId}/`)}>

@@ -1,10 +1,11 @@
 import React from 'react';
-import { Container, Grid, Typography, Divider, Box } from '@mui/material';
+import { Container, Grid2, Typography, Divider, Box } from '@mui/material';
 import { FaFacebookF, FaTwitter, FaLinkedinIn } from 'react-icons/fa';
 
 const Footer = () => {
   return (
     <Box
+        className='m-4'
         sx={{
             background: 'linear-gradient(135deg, rgba(98, 0, 234, 0.8) 10%, rgba(55, 0, 179, 0.8) 50%)',
             color: '#fff',
@@ -15,19 +16,19 @@ const Footer = () => {
         }}
     >
       <Container maxWidth="lg">
-        <Grid container spacing={4}>
+        <Grid2 container spacing={4}>
           {/* About Section */}
-          <Grid item xs={12} sm={4}>
+          <Grid2 item xs={12} sm={4}>
             <Typography variant="h6" fontWeight="bold" gutterBottom>
               About Us
             </Typography>
             <Typography variant="body2" color="white">
               NCAPC is a platform designed to make your project management efficient, streamlined, and collaborative.
             </Typography>
-          </Grid>
+          </Grid2>
 
           {/* Quick Links */}
-          <Grid item xs={12} sm={4}>
+          <Grid2 item xs={12} sm={4}>
             <Typography variant="h6" fontWeight="bold" gutterBottom>
               Quick Links
             </Typography>
@@ -36,10 +37,10 @@ const Footer = () => {
               <a href="/features" style={{ color: 'white', textDecoration: 'none' }}>Features</a><br />
               <a href="/contact" style={{ color: 'white', textDecoration: 'none' }}>Contact</a>
             </Typography>
-          </Grid>
+          </Grid2>
 
           {/* Contact Section */}
-          <Grid item xs={12} sm={4}>
+          <Grid2 item xs={12} sm={4}>
             <Typography variant="h6" fontWeight="bold" gutterBottom>
               Contact Us
             </Typography>
@@ -47,8 +48,8 @@ const Footer = () => {
               Email: support@ncapc.com<br />
               Phone: +254 700 11 22 33
             </Typography>
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
 
         <Divider sx={{ my: 4 }} />
 

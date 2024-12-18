@@ -5,6 +5,10 @@ import {
   Button,
   TextField,
   Typography,
+  MenuItem,
+  InputLabel,
+  FormControl,
+  Select,
 } from "@mui/material";
 import axios from "axios";
 
@@ -78,14 +82,19 @@ const AddStakeholderModal = ({ open, onClose, projectId }) => {
             onChange={handleChange}
             required
           />
-          <TextField
-            name="role"
-            label="Role"
-            fullWidth
-            margin="normal"
-            onChange={handleChange}
-            required
-          />
+          <FormControl fullWidth required>
+            <InputLabel id="role-label">Role</InputLabel>
+            <Select
+              labelId="Role-label"
+              name="role"
+              onChange={handleChange}
+              label="Scope"
+            >
+              <MenuItem value="Architect">Architect</MenuItem>
+              <MenuItem value="Contractor">Contractor</MenuItem>
+              <MenuItem value="Engineer">Engineer</MenuItem>
+            </Select>
+          </FormControl>
           <TextField
             name="practicing_number"
             label="Practicing Number"

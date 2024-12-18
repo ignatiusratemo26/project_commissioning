@@ -93,8 +93,35 @@ const Header = ({ toggleCart }) => {
         >
           <FaBars />
         </IconButton>
-
         <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+          sx={{ display: { md: 'none' } }}
+        >
+          <MenuItem component={Link} to="/contact" onClick={handleMenuClose}>
+            Contact
+          </MenuItem>
+          <MenuItem component={Link} to={user ? '/profile' : '/login'} onClick={handleMenuClose}>
+            Profile
+          </MenuItem>
+          {user ? (
+            <>
+              <MenuItem component={Link} to="/projects" onClick={handleMenuClose}>
+                Projects
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  logout();
+                  handleMenuClose();
+                }}
+              >
+                Logout
+              </MenuItem>
+            </>
+          ) : null}
+        </Menu>
+        {/* <Menu
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           onClose={handleMenuClose}
@@ -112,7 +139,7 @@ const Header = ({ toggleCart }) => {
           : 
           null   
           }
-        </Menu>
+        </Menu> */}
       </Toolbar>
     </AppBar>
   );
