@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from "react";
+import React, {useState, useEffect, useContext } from "react";
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
@@ -11,6 +11,8 @@ import ProfilePage from "./components/ProfilePage";
 import EditProject from "./components/projects/EditProject";
 import ProjectView from "./components/projects/ProjectView";
 import ContactPage from "./components/ContactPage";
+import { UserContext } from "./UserContext";
+import { useNavigate } from "react-router-dom";
 
 
 const API_URL="http://localhost:8000/api";
@@ -20,8 +22,18 @@ axios.defaults.withCredentials = true;
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
 
+  const { ready, redirect } = useContext(UserContext);
+  const navigate = useNavigate();
+
+    useEffect(() => {
+        if (redirect) {
+            navigate(redirect);
+        }
+    }, [redirect, navigate]);
+
+    if (!ready) return <div>Loading...</div>;
+
   return (
-    <Router>
       <div className="flex flex-col min-h-screen dark-mode">
       <Header />
       <main className="flex-grow bg-gray-100">
@@ -39,7 +51,6 @@ function App() {
       </Routes>
       </main>
       </div>
-    </Router>
   );
 }
 

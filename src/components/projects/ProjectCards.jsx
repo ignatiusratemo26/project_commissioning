@@ -1,6 +1,6 @@
 // ProjectCards.js
 import React from "react";
-import { Card, CardContent, Typography, ListItem, ListItemText } from "@mui/material";
+import { Card, CardContent, Typography, ListItem, ListItemText, Button } from "@mui/material";
 
 const ProjectCards = ({ project, stakeholders, occupancyCertificate }) => {
   const documentFields = [
@@ -56,12 +56,23 @@ const ProjectCards = ({ project, stakeholders, occupancyCertificate }) => {
         <CardContent>
           <Typography variant="h6" gutterBottom>Occupancy Certificate</Typography>
           
-          <Typography>Issued: {occupancyCertificate ? 'Yes' : 'No'}</Typography>
+          <Typography>Issued: {occupancyCertificate !== null ? 'Yes' : 'No'}</Typography>
             {occupancyCertificate ? (
-                <Typography>View Certificate: <a href={
-                    occupancyCertificate
-                    } target="_blank" rel="noopener noreferrer">View Document</a></Typography>
-                    
+                <Typography>
+                View Certificate: 
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  component="a"
+                  href={occupancyCertificate.certificate_file}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{ ml: 1 }}
+                >
+                  Open
+                </Button>
+              </Typography>
+
           ) : (
             <Typography>No Occupancy Certificate issued yet.</Typography>
           )}

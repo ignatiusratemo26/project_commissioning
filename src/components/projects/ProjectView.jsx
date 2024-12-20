@@ -316,33 +316,34 @@ const ProjectView = () => {
   const [occupancyCertificate, setOccupancyCertificate] = useState(null);
   const navigate = useNavigate();
 
+
+  const fetchProjectDetails = async () => {
+    try {
+      const response = await axios.get(`/projects/${projectId}/`);
+      setProject(response.data);
+
+      // Fetch stakeholders associated with the project
+      const stakeholdersResponse = await axios.get(`/stakeholders/?project=${projectId}`);
+      setStakeholders(stakeholdersResponse.data);
+
+      // Determine submission eligibility
+      setIsSubmitDisabled(response.data.approved_docs < 3 || stakeholdersResponse.data.length < 3);
+    } catch (error) {
+      console.error("Error fetching project details:", error);
+    }
+  };
+
+  const fetchOccupancyCertificate = async () => {
+    try {
+      const response = await axios.get(`/occupancy-certificates/by-project/?project_id=${projectId}`);
+      setOccupancyCertificate(response.data);
+    } catch (error) {
+      console.error("Error fetching occupancy certificate:", error);
+    }
+  };
+
+
   useEffect(() => {
-
-    const fetchProjectDetails = async () => {
-      try {
-        const response = await axios.get(`/projects/${projectId}/`);
-        setProject(response.data);
-
-        // Fetch stakeholders associated with the project
-        const stakeholdersResponse = await axios.get(`/stakeholders/?project=${projectId}`);
-        setStakeholders(stakeholdersResponse.data);
-
-        // Determine submission eligibility
-        setIsSubmitDisabled(response.data.approved_docs < 3 || stakeholdersResponse.data.length < 3);
-      } catch (error) {
-        console.error("Error fetching project details:", error);
-      }
-    };
-
-    const fetchOccupancyCertificate = async () => {
-      try {
-        const response = await axios.get(`/occupancy_certificates/by-project/?project=${projectId}/`);
-        setOccupancyCertificate(response.data);
-      } catch (error) {
-        console.error("Error fetching occupancy certificate:", error);
-      }
-    };
-
     fetchProjectDetails();
     fetchOccupancyCertificate();
   }, [projectId]);
@@ -447,7 +448,7 @@ const ProjectView = () => {
       </Paper>
 
       {/* Cards Section */}
-      <ProjectCards project={project} stakeholders={stakeholders} />
+      <ProjectCards project={project} stakeholders={stakeholders} occupancyCertificate={occupancyCertificate} />
     </div>
   );
 };

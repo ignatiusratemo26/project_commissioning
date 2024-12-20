@@ -98,15 +98,7 @@ export function UserContextProvider({children}) {
           throw err;
         }
       };
-      
 
-    // Logout Function
-    // const logout = () => {
-    //   await axios.post('/logout/', { refresh: localStorage.getItem('refreshToken') });
-    //     localStorage.removeItem('accessToken');
-    //     delete axios.defaults.headers.common['Authorization'];
-    //     setUser(null);
-    // };
     const logout = async () => {
       try {
         await axios.post('/logout/', { refresh: localStorage.getItem('refreshToken') });
@@ -114,6 +106,7 @@ export function UserContextProvider({children}) {
         localStorage.removeItem('refreshToken');
         delete axios.defaults.headers.common['Authorization'];
         setUser(null);
+        setRedirect('/login'); 
       } catch (error) {
         console.error('Error during logout:', error);
       }
