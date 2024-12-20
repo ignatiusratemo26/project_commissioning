@@ -96,24 +96,21 @@ const ProjectView = () => {
     { label: 'Proposed Water', key: 'proposed_water' },
     { label: 'Proposed Electricity', key: 'proposed_electricity' },
   ];
-
   return (
     <div>
-      
-      <Paper className="p-6">
-        <IconButton onClick={() => navigate(-1)}>
+      <Paper className="p-6" elevation={3} sx={{ borderRadius: '8px' }}>
+        <IconButton onClick={() => navigate(-1)} sx={{ mb: 2 }}>
           <ArrowBack />
         </IconButton>
-          {/* Title Section */}
-        <div style={{ display: "flex", marginBottom: "16px" }}>
-          <Typography variant="h4" gutterBottom style={{ marginRight: "46px" }}>
-            Project Details for {project.name}
-          </Typography>
-          
-        </div>
 
-        <div style={{ display: "flex", justifyContent:"center" , marginBottom: "16px" }}>
-        {project.approved_for_commissioning && (
+        {/* Title Section */}
+        <Typography variant="h4" gutterBottom>
+          Project Details for {project.name}
+        </Typography>
+
+        {/* Badge Section */}
+        <div style={{ display: "flex", justifyContent: "center" , margin:"20px" ,marginBottom: "16px", marginLeft: "8px" }}>
+          {project.approved_for_commissioning && (
             <Badge
               badgeContent={
                 <span style={{ display: "flex", alignItems: "center" }}>
@@ -127,10 +124,10 @@ const ProjectView = () => {
                   backgroundColor: "#4caf50",
                   color: "#fff",
                   padding: "4px 12px",
+                  paddingY:'20px',
+                  marginRight: "150px",
                   borderRadius: "8px",
                   fontWeight: "bold",
-                  marginRight: "8px",
-                  paddingY: "20px",
                 },
               }}
             />
@@ -149,33 +146,28 @@ const ProjectView = () => {
                   backgroundColor: "#4caf50",
                   color: "#fff",
                   padding: "4px 12px",
-                  paddingY:"20px",
+                  paddingY:'20px',
                   borderRadius: "8px",
                   fontWeight: "bold",
-                  marginLeft: "8px",
                 },
               }}
             />
           )}
-          </div>
+        </div>
 
         {/* Button Container */}
-        <Grid2 container justifyContent="flex-end" spacing={2} className="mt-10" >
-        <Grid2 item>
-
-          <Tooltip title="Project must have at least 3 approved documents and three stakeholders to submit for approval.">
-
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={project.approved_for_commissioning ? handleSubmitForCommissioning : handleSubmitForApproval}
-              disabled={isSubmitDisabled}
-            >
-              {project.approved_for_commissioning ? 'Submit for Commissioning' : 'Submit for Approval'}
-            </Button>
+        <Grid2 container justifyContent="flex-end" spacing={2} className="mt-10">
+          <Grid2 item>
+            <Tooltip title="Project must have at least three approved documents and three stakeholders to submit for approval.">
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={project.approved_for_commissioning ? handleSubmitForCommissioning : handleSubmitForApproval}
+                disabled={isSubmitDisabled}
+              >
+                {project.approved_for_commissioning ? 'Submit for Commissioning' : 'Submit for Approval'}
+              </Button>
             </Tooltip>
-
-
           </Grid2>
           <Grid2 item>
             <Button variant="contained" color="secondary" onClick={() => navigate(`/projects/edit/${projectId}/`)}>
@@ -194,23 +186,15 @@ const ProjectView = () => {
           </Grid2>
         </Grid2>
 
+        {/* Modals */}
         {approvedDocsModalOpen && (
-            <AddApprovedDocumentModal
-              open={approvedDocsModalOpen}
-              onClose={handleApprovedDocsModalClose}
-              projectId={projectId}
-            />
-          )}
+          <AddApprovedDocumentModal open={approvedDocsModalOpen} onClose={handleApprovedDocsModalClose} projectId={projectId} />
+        )}
+        {stakeholderModalOpen && (
+          <AddStakeholderModal open={stakeholderModalOpen} onClose={handleStakeholderModalClose} projectId={projectId} />
+        )}
 
-          {stakeholderModalOpen && (
-            <AddStakeholderModal
-              open={stakeholderModalOpen}
-              onClose={handleStakeholderModalClose}
-              projectId={projectId}
-            />
-          )}
-
-
+        {/* Project Details */}
         <Grid2 container spacing={3} sx={{ marginTop: 2 }}>
           <Grid2 item xs={12} sm={6}>
             <Typography variant="h6">Name:</Typography>
@@ -232,17 +216,16 @@ const ProjectView = () => {
             <Typography variant="h6">Plot No:</Typography>
             <Typography>{project.location.plot_number}</Typography>
           </Grid2>
+
+          {/* Approved Documents Section */}
           <Grid2 item xs={12} sm={6}>
             <Typography variant="h6">Approved Docs:</Typography>
             <Typography>{project.approved_docs > 0 ? "Yes" : "No"}</Typography>
 
-
-            {/* Display approved documents */}
             {project.approved_drawings && (
               <>
                 <Typography variant="h6" gutterBottom>Approved Documents:</Typography>
-                
-                <List>
+                <List dense sx={{ bgcolor: 'background.paper' }}>
                   {project.approved_drawings.map((doc) => (
                     <ListItem key={doc.id}>
                       <ListItemText primary={`Document: ${doc.architectural || doc.structural}`} />
@@ -256,14 +239,10 @@ const ProjectView = () => {
           {/* Stakeholders Section */}
           <Grid2 item xs={12} sm={6}>
             <Typography variant="h6">Stakeholders:</Typography>
-            {/* Button to add stakeholders */}
-            
-
-            {/* Display stakeholders */}
-            {stakeholders.length >= 0 ? (
-              <Typography>
-                {stakeholders.length} Stakeholder(s) added.
-              </Typography>
+            {stakeholders.length > 0 ? (
+              <>
+                <Typography>{stakeholders.length} Stakeholder(s) added.</Typography>
+              </>
             ) : (
               <Typography>No stakeholders added yet.</Typography>
             )}
@@ -271,75 +250,39 @@ const ProjectView = () => {
 
         </Grid2>
 
-
       </Paper>
 
       {/* Card for Approved Documents */}
-      <Card sx={{ marginTop: 3 }}>
+      <Card sx={{ marginTop: 3 }} elevation={3}>
         <CardContent>
           <Typography variant="h6" gutterBottom>Approved Documents</Typography>
-          {/* {Object.keys(project.approved_docs || {}).length > 0 ? (
-          //   <List>
-          //     {Object.entries(project.approved_docs).map(([key, url]) => (
-          //       <ListItem key={key} divider>
-          //         <ListItemText primary={key.replace(/_/g, " ")} />
-          //         <Button
-          //           variant="outlined"
-          //           color="primary"
-          //           href={url}
-          //           target="_blank"
-          //           rel="noopener noreferrer"
-          //         >
-          //           View Document
-          //         </Button>
-          //       </ListItem>
-          //     ))}
-          //   </List>
-          // ) : (
-          //   <Typography>No approved documents uploaded yet.</Typography>
-          // )} */}
-          <List>
           {documentFields.map((doc) => (
             <ListItem key={doc.key}>
-              <ListItemText
-                primary={`${doc.label}:`}
+              <ListItemText 
+                primary={`${doc.label}:`} 
                 secondary={
                   project[doc.key] ? (
-                    <a href={project[doc.key]} target="_blank" rel="noopener noreferrer">
-                      View Document
-                    </a>
-                  ) : (
-                    'Not available'
-                  )
-                }
+                    <a href={project[doc.key]} target="_blank" rel="noopener noreferrer">View Document</a> 
+                  ) : ('Not available')
+                } 
               />
             </ListItem>
           ))}
-        </List>
         </CardContent>
       </Card>
 
-
-
-
-
-
-
-
-
-
       {/* Card for Stakeholders */}
-      <Card sx={{ marginTop: 3 }}>
+      <Card sx={{ marginTop: 3 }} elevation={3}>
         <CardContent>
           <Typography variant="h6" gutterBottom>Stakeholders</Typography>
           {stakeholders.length > 0 ? (
-            <List>
+            <>
               {stakeholders.map((stakeholder) => (
                 <ListItem key={stakeholder.id} divider>
                   <ListItemText primary={`${stakeholder.name} - ${stakeholder.role}`} />
                 </ListItem>
               ))}
-            </List>
+            </>
           ) : (
             <Typography>No stakeholders added yet.</Typography>
           )}
