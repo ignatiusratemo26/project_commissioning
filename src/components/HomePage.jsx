@@ -43,6 +43,27 @@ const HomePage = () => {
     navigate('/register');
   };
 
+  const cardData = [
+    {
+      image:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShPDwADwRUJWEKOwVPIbocdbJ-KqabOYYOXA&s',
+      title: 'Manage your Projects',
+      description: 'Seamlessly organize and track your projects from start to finish.',
+    },
+    {
+      image:
+        'https://cdn.viewpoint.com/blog/2022/08/iStock-1334272873.jpg',
+      title: 'Verify your Project Staff',
+      description: 'Verify and manage your staff with ease.',
+    },
+    {
+      image:
+        'https://www.shutterstock.com/image-photo/management-approval-project-concepts-business-600nw-2489017175.jpg',
+      title: 'Fast Project Approvals',
+      description: 'Accelerate your project approvals like never before.',
+    },
+  ];
+
   return (
     <>
 
@@ -103,65 +124,48 @@ const HomePage = () => {
         </Typography>
 
         <Grid2 container spacing={4} sx={{ mt: 4 }}>
-          {/* Feature 1 */}
-          <Grid2 item xs={12} sm={6} md={4}>
-            <Card elevation={3}>
-              <CardMedia
-                component="img"
-                height="140"
-                image="/path/to/feature1.jpg"
-                alt="Feature 1"
-              />
-              <CardContent>
-                <Typography variant="h6" fontWeight="bold">
-                  Feature 1
-                </Typography>
-                <Typography variant="body2" color="white">
-                  Detailed description of Feature 1 and its benefits.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid2>
-
-          {/* Feature 2 */}
-          <Grid2 item xs={12} sm={6} md={4}>
-            <Card elevation={3}>
-              <CardMedia
-                component="img"
-                height="140"
-                image="/path/to/feature2.jpg"
-                alt="Feature 2"
-              />
-              <CardContent>
-                <Typography variant="h6" fontWeight="bold">
-                  Feature 2
-                </Typography>
-                <Typography variant="body2" color="white">
-                  Detailed description of Feature 2 and its benefits.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid2>
-
-          {/* Feature 3 */}
-          <Grid2 item xs={12} sm={6} md={4}>
-            <Card elevation={3}>
-              <CardMedia
-                component="img"
-                height="140"
-                image="/path/to/feature3.jpg"
-                alt="Feature 3"
-              />
-              <CardContent>
-                <Typography variant="h6" fontWeight="bold">
-                  Feature 3
-                </Typography>
-                <Typography variant="body2" color="white">
-                  Detailed description of Feature 3 and its benefits.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid2>
+          {cardData.map((card, index) => (
+            <Grid2 item xs={12} sm={6} md={4} key={index}>
+              <Card
+                elevation={3}
+                sx={{
+                  borderRadius: 3,
+                  overflow: 'hidden',
+                  transition: 'transform 0.3s, box-shadow 0.3s',
+                  '&:hover': {
+                    transform: 'scale(1.05)',
+                    boxShadow: 6,
+                  },
+                }}
+              >
+                <CardMedia
+                  component="div"
+                  sx={{
+                    height: 140,
+                    backgroundImage: `url('${card.image}')`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    transition: 'transform 0.5s',
+                    '&:hover': {
+                      transform: 'scale(1.1)',
+                    },
+                  }}
+                />
+                <CardContent
+                  sx={{
+                    background:
+                      'linear-gradient(to right,rgb(163, 34, 238) 0%,rgb(209, 78, 241) 100%)',
+                    color: 'white',
+                  }}
+                >
+                  <Typography variant="h6" fontWeight="bold">
+                    {card.title}
+                  </Typography>
+                  <Typography variant="body2">{card.description}</Typography>
+                </CardContent>
+              </Card>
+            </Grid2>
+          ))}
         </Grid2>
       </Container>
 

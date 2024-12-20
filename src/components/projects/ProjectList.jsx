@@ -258,6 +258,7 @@ export default function ProjectList() {
         <Button
           className="w-full md:w-auto"
           variant="contained"
+          color="secondary"
           startIcon={<Add />}
           onClick={handleOpenModal}
         >
