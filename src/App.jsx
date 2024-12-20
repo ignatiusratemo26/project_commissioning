@@ -13,6 +13,7 @@ import ProjectView from "./components/projects/ProjectView";
 import ContactPage from "./components/ContactPage";
 import { UserContext } from "./UserContext";
 import { useNavigate } from "react-router-dom";
+import NotificationPage from "./components/NotificationPage";
 
 
 const API_URL="http://localhost:8000/api";
@@ -46,6 +47,7 @@ function App() {
         <Route path="/projects/edit/:projectId" element={<EditProject />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/notifications" element={<NotificationPage />} />
         
         <Route path="/create-project" element={<ProjectForm />} />
       </Routes>

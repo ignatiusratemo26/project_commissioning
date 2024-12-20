@@ -40,7 +40,7 @@ const HomePage = () => {
     },
     {
       image:
-        'https://cdn.viewpoint.com/blog/2022/08/iStock-1334272873.jpg',
+        'https://acropolis-wp-content-uploads.s3.us-west-1.amazonaws.com/what-does-a-construction-project-manager-do-hero.webp',
       title: 'Verify your Project Staff',
       description: 'Verify and manage your staff with ease.',
     },
