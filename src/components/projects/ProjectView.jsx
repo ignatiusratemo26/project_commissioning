@@ -297,7 +297,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Paper, IconButton, Typography,Badge, Grid2 } from "@mui/material";
+import { Paper, IconButton, Typography,Badge, Grid2, Snackbar, Alert } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
 import ProjectDetails from "./ProjectDetails"; // New component for project details
 import ProjectActions from "./ProjectActions"; // New component for action buttons
@@ -305,6 +305,8 @@ import ProjectCards from "./ProjectCards"; // New component for cards
 import AddApprovedDocumentModal from "./AddApprovedDocumentModal"; // Import your modal component
 import AddStakeholderModal from "./AddStakeholderModal"; // Import your modal component
 import { CheckCircleIcon } from "lucide-react";
+
+
 
 const ProjectView = () => {
   const { projectId } = useParams();
@@ -315,6 +317,9 @@ const ProjectView = () => {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
   const [occupancyCertificate, setOccupancyCertificate] = useState(null);
   const navigate = useNavigate();
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+
 
 
   const fetchProjectDetails = async () => {
@@ -333,6 +338,34 @@ const ProjectView = () => {
     }
   };
 
+    const handleSubmitForApproval = async () => {
+    try {
+      // check if there is a project stakeholder called "Owner"
+      if (stakeholders.filter(stakeholder => stakeholder.role === "Owner").length === 0) {
+        console.error("Project must have an owner to submit for approval");
+        alert("Project must have an owner to submit for approval");
+        return;
+      }
+      await axios.patch(`/projects/${projectId}/`, { ready_for_approval: true });
+      console.log("Project submitted for approval");
+      // Set the success message and open the Snackbar
+    setSnackbarMessage("Project has been submitted for approval successfully!");
+    setOpenSnackbar(true);
+    } catch (error) {
+      console.error("Error submitting project for approval:", error);
+    }
+  };
+
+  const handleSubmitForCommissioning = async () => {
+    try {
+      await axios.patch(`/projects/${projectId}/`, { ready_for_commissioning: true });
+      setSnackbarMessage("Project has been submitted for Commissioning successfully!");
+      setOpenSnackbar(true);
+    } catch (error) {
+      console.error("Error submitting project for commissioning:", error);
+    }
+  };
+
   const fetchOccupancyCertificate = async () => {
     try {
       const response = await axios.get(`/occupancy-certificates/by-project/?project_id=${projectId}`);
@@ -346,10 +379,8 @@ const ProjectView = () => {
   useEffect(() => {
     fetchProjectDetails();
     fetchOccupancyCertificate();
+
   }, [projectId]);
-
-
-
 
   const handleApprovedDocsModalClose = () => {
     setApprovedDocsModalOpen(false);
@@ -364,7 +395,21 @@ const ProjectView = () => {
   if (!project) return <div>Loading...</div>;
 
   return (
+
     <div>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000} // Snackbar will automatically hide after 6 seconds
+          onClose={() => setOpenSnackbar(false)} // Close the Snackbar when the user clicks away or after timeout
+        >
+          <Alert 
+            onClose={() => setOpenSnackbar(false)} 
+            severity="success" 
+            sx={{ width: '100%' }}
+          >
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
       <Paper className="p-6" elevation={3} sx={{ borderRadius: '8px', margin: 2 }}>
         <IconButton onClick={() => navigate(-1)} sx={{ mb: 2 }}>
           <ArrowBack />
@@ -432,6 +477,8 @@ const ProjectView = () => {
           handleStakeholderModalOpen={() => setStakeholderModalOpen(true)} 
           navigate={navigate} 
           projectId={projectId}
+          handleSubmitForApproval={handleSubmitForApproval} // Pass function here
+          handleSubmitForCommissioning={handleSubmitForCommissioning}
         />
 
         {/* Modals */}

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Container,
@@ -10,8 +10,7 @@ import {
   Paper,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { UserContext } from '../UserContext';
-
+import axios from 'axios';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
@@ -21,11 +20,44 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   },
 }));
 
-
-
 const ProfilePage = () => {
-    // const { user } = useContext(UserContext);
-    const user = JSON.parse(localStorage.getItem('userDetails'));
+  const user = JSON.parse(localStorage.getItem('userDetails'));
+
+  // State for form fields
+  const [formData, setFormData] = useState({
+    first_name: user.first_name || '',
+    last_name: user.last_name || '',
+    username: user.username || '',
+    phone_number: user.phone_number || '',
+  });
+
+  // Handle input change
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  // Handle save changes
+  const handleSave = async () => {
+    try {
+      const response = await axios.patch(
+        '/users/update_profile/', // Replace with your actual endpoint
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // If authorization is needed
+          },
+        }
+      );
+
+      // Optionally update localStorage or inform the user
+      localStorage.setItem('userDetails', JSON.stringify(response.data));
+      alert('Profile updated successfully!');
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      alert('Failed to update profile. Please try again.');
+    }
+  };
 
   return (
     <Container maxWidth="md">
@@ -33,7 +65,7 @@ const ProfilePage = () => {
         <Box display="flex" flexDirection="column" alignItems="center">
           {/* Profile Picture */}
           <Avatar
-            alt={user.first_name[0] + user.last_name[0]}
+            alt={`${user.first_name?.[0] || ''}${user.last_name?.[0] || ''}`}
             src="/path/to/profile-pic.jpg"
             sx={{
               width: 100,
@@ -61,7 +93,9 @@ const ProfilePage = () => {
               <TextField
                 fullWidth
                 label="First Name"
-                defaultValue={user.first_name}
+                name="first_name"
+                value={formData.first_name}
+                onChange={handleChange}
                 variant="outlined"
               />
             </Grid2>
@@ -70,7 +104,9 @@ const ProfilePage = () => {
               <TextField
                 fullWidth
                 label="Last Name"
-                defaultValue={user.last_name}
+                name="last_name"
+                value={formData.last_name}
+                onChange={handleChange}
                 variant="outlined"
               />
             </Grid2>
@@ -79,7 +115,9 @@ const ProfilePage = () => {
               <TextField
                 fullWidth
                 label="Email"
-                defaultValue={user.username}
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
                 variant="outlined"
               />
             </Grid2>
@@ -88,7 +126,9 @@ const ProfilePage = () => {
               <TextField
                 fullWidth
                 label="Phone Number"
-                defaultValue={user.phone_number}
+                name="phone_number"
+                value={formData.phone_number}
+                onChange={handleChange}
                 variant="outlined"
               />
             </Grid2>
@@ -96,7 +136,7 @@ const ProfilePage = () => {
 
           {/* Save Button */}
           <Box mt={4} textAlign="center">
-            <Button variant="contained" color="primary" size="large">
+            <Button variant="contained" color="secondary" size="large" onClick={handleSave}>
               Save Changes
             </Button>
           </Box>

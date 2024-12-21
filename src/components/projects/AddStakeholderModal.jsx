@@ -28,6 +28,8 @@ const AddStakeholderModal = ({ open, onClose, projectId }) => {
   const [formData, setFormData] = useState({
     name: "",
     role: "",
+    phone_number: "",
+    email: "",
     practicing_number: "",
     certificate: null,
   });
@@ -90,11 +92,29 @@ const AddStakeholderModal = ({ open, onClose, projectId }) => {
               onChange={handleChange}
               label="Scope"
             >
+              <MenuItem value="Owner">Owner</MenuItem>
               <MenuItem value="Architect">Architect</MenuItem>
               <MenuItem value="Contractor">Contractor</MenuItem>
               <MenuItem value="Engineer">Engineer</MenuItem>
+
             </Select>
           </FormControl>
+          <TextField
+            name="phone_number"
+            label="Phone Number"
+            fullWidth
+            margin="normal"
+            onChange={handleChange}
+            required
+          />
+          <TextField
+            name="email"
+            label="Email"
+            fullWidth
+            margin="normal"
+            onChange={handleChange}
+            required
+          />
           <TextField
             name="practicing_number"
             label="Practicing Number"
@@ -104,7 +124,7 @@ const AddStakeholderModal = ({ open, onClose, projectId }) => {
             required
           />
           <Typography variant="body1" gutterBottom>
-            Certificate
+            Certificate/Identification doc
           </Typography>
           <TextField
             name="certificate"

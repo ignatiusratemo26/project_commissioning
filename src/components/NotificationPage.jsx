@@ -97,7 +97,7 @@ export default function NotificationPage() {
             <TableRow>
               <TableCell>#</TableCell>
               <TableCell>MESSAGE</TableCell>
-              <TableCell>PROJECT</TableCell>
+              <TableCell>PROJECT ID</TableCell>
               <TableCell>STATUS</TableCell>
               <TableCell>ACTIONS</TableCell>
             </TableRow>
@@ -109,7 +109,7 @@ export default function NotificationPage() {
                 <TableRow key={notification.id}>
                   <TableCell>{notification.id}</TableCell>
                   <TableCell>{notification.message}</TableCell>
-                  <TableCell>{notification.project?.name || "N/A"}</TableCell>
+                  <TableCell>#{notification.project || "N/A"}</TableCell>
                   <TableCell>
                     <Badge
                       badgeContent={notification.is_read ? "Read" : "Unread"}

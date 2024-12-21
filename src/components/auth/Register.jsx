@@ -77,7 +77,7 @@ const Register = () => {
           <TextField
               label="First Name"
               value={first_name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setFirstName(e.target.value)}
               fullWidth
               margin="normal"
               required
@@ -85,7 +85,7 @@ const Register = () => {
             <TextField
               label="Last Name"
               value={last_name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setLastName(e.target.value)}
               fullWidth
               margin="normal"
               required
