@@ -25,7 +25,7 @@ const style = {
   p: 4,
 };
 
-const CreateProjectModal = ({ open, handleClose }) => {
+const CreateProjectModal = ({ open, handleClose, onProjectCreated }) => {
   const [formData, setFormData] = useState({
     name: "",
     scope: "",
@@ -59,6 +59,7 @@ const CreateProjectModal = ({ open, handleClose }) => {
     try {
       // Send structured data to backend
       await axios.post("/projects/", formData);
+      onProjectCreated();
       handleClose(); // Close modal after submitting
       // Optionally refresh project list or show success message
     } catch (error) {

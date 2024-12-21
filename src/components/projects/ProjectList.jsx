@@ -41,17 +41,27 @@ export default function ProjectList() {
     navigate(`/projects/edit/${currentProjectId}`);
   };
 
+  const fetchProjects = async () => {
+    try {
+      const response = await axios.get("/projects/");
+      setProjects(response.data);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await axios.get("/projects/");
-        setProjects(response.data);
-      } catch (error) {
-        console.error("Error fetching projects:", error);
-      }
-    };
     fetchProjects();
   }, []);
+
+  const handleProjectCreated = () => {
+    fetchProjects();
+    handleCloseModal();
+  };
+
+  const handleRowClick = (projectId) => {
+    navigate(`/projects/view/${projectId}`);
+  };
 
   const handlePageChange = (_event, newPage) => {
     setPage(newPage);
@@ -89,7 +99,7 @@ export default function ProjectList() {
         >
           Create New Project
         </Button>
-        <CreateProjectModal open={modalOpen} handleClose={handleCloseModal} />
+        <CreateProjectModal open={modalOpen} handleClose={handleCloseModal} onProjectCreated={handleProjectCreated}/>
       </div>
 
       <TableContainer component={Paper}>
@@ -108,7 +118,7 @@ export default function ProjectList() {
           </TableHead>
           <TableBody>
             {projects.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((project) => (
-              <TableRow key={project.id}>
+              <TableRow key={project.id}  onClick={() => handleRowClick(project.id)} style={{ cursor: 'pointer' }}>
                 <TableCell>{project.id}</TableCell>
                 <TableCell>{project.name}</TableCell>
                 <TableCell>{project.scope}</TableCell>

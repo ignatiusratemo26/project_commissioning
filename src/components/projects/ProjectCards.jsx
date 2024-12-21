@@ -42,6 +42,8 @@ const ProjectCards = ({ project, stakeholders, occupancyCertificate }) => {
               {stakeholders.map((stakeholder) => (
                 <ListItem key={stakeholder.id} divider>
                   <ListItemText primary={`${stakeholder.name} - ${stakeholder.role}`} />
+                  <ListItemText secondary={stakeholder.email} />
+                  <ListItemText secondary={stakeholder.phone_number} />
                 </ListItem>
               ))}
             </>
