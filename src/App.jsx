@@ -16,7 +16,8 @@ import { useNavigate } from "react-router-dom";
 import NotificationPage from "./components/NotificationPage";
 
 
-const API_URL="http://localhost:8000/api";
+// const API_URL="http://localhost:8000/api";
+const API_URL= "https://ignatius5.pythonanywhere.com/api"
 axios.defaults.baseURL = API_URL;
 axios.defaults.withCredentials = true;
 

@@ -7,7 +7,8 @@ import { UserContextProvider } from './UserContext.jsx'
 import { ThemeProvider } from "@material-tailwind/react";
 import { BrowserRouter } from 'react-router-dom';
 
-const API_URL="http://localhost:8000/api";
+// const API_URL="http://localhost:8000/api";
+const API_URL= "https://ignatius5.pythonanywhere.com/api"
 axios.defaults.baseURL = API_URL;
 axios.defaults.withCredentials = true;
 
