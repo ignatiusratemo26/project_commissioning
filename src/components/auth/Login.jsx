@@ -5,7 +5,7 @@ import {
     TextField,
     Button,
     Typography,
-    Box,
+    Box, Snackbar, Alert as MuiAlert,
     Link as MuiLink,
     CircularProgress
 } from '@mui/material';
@@ -16,6 +16,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false); // Loading state
   const { user, login } = useContext(UserContext);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent default form submission
@@ -27,6 +29,8 @@ const Login = () => {
     } catch (error) {
       setLoading(false); // Reset loading state on error
       console.error("Login failed:", error.message || error);
+      setSnackbarMessage("Login failed. Please check your credentials.");
+      setSnackbarOpen(true); 
     }
   };
 
@@ -100,6 +104,18 @@ const Login = () => {
             {loading ? <CircularProgress size={24} color="inherit" /> : "Login"}
           </Button>
         </form>
+        
+        <Snackbar 
+          open={snackbarOpen} 
+          autoHideDuration={6000} 
+          onClose={() => setSnackbarOpen(false)}
+        >
+          <MuiAlert elevation={6} severity="error" onClose={() => setSnackbarOpen(false)}>
+            {snackbarMessage}
+          </MuiAlert>
+        </Snackbar>
+
+
         <Typography
           variant="body2"
           align="center"

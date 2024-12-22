@@ -43,20 +43,34 @@ const AddApprovedDocumentModal = ({ open, onClose, projectId }) => {
     setFormData({ ...formData, [e.target.name]: e.target.files[0] });
   };
 
-  const validateFiles = () => { const validFormats = [ 
-    'application/pdf', 
-    'image/png', 
-    'image/jpeg', 
-    'application/msword', 
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ]; 
-    return Object.values(formData).every(file => file ? validFormats.includes(file.type) : true ); 
-    }; 
-    const handleSubmit = async (e) => { 
-        e.preventDefault(); 
-        if (!validateFiles()) 
-            { alert("Please upload files in PDF, PNG, JPEG, DOC, or DOCX format.");
-                return;
-            }
+  const validateFiles = () => {
+    const validFormats = [
+      'application/pdf',
+      'image/png',
+      'image/jpeg',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    ];
+    
+    const maxSizeInBytes = 3 * 1024 * 1024; // 3 MB
+  
+    return Object.values(formData).every(file => {
+      if (file) {
+        return validFormats.includes(file.type) && file.size <= maxSizeInBytes;
+      }
+      return true; // If no file is uploaded, it's considered valid
+    });
+  };
+  
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validateFiles()) {
+      alert("Please upload files in PDF, PNG, JPEG, DOC, or DOCX format and ensure they are less than 3 MB.");
+      return;
+    }
 
     const formDataToSend = new FormData();
     Object.keys(formData).forEach((key) => {
