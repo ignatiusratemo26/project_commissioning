@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes, useLocation } from "react-route
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import ProjectList from "./components/projects/ProjectList";
-import ProjectForm from "./components/Projects/ProjectForm";
+import ProjectForm from "./components/projects/ProjectForm";
 import axios from "axios";
 import HomePage from "./components/HomePage";
 import Header from "./components/shared/Header";
